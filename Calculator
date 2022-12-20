@@ -1,0 +1,44 @@
+import tkinter as tk
+
+# Create the main window
+window = tk.Tk()
+window.title("Calculator")
+
+# Create the display
+display = tk.Entry(window, font=("Helvetica", 20), justify="right")
+display.grid(row=0, column=0, columnspan=5, padx=5, pady=5, sticky="ew")
+
+# Create the buttons
+buttons = [
+    ["7", "8", "9", "/", "C"],
+    ["4", "5", "6", "*", "("],
+    ["1", "2", "3", "-", ")"],
+    ["0", ".", "=", "+", ""]
+]
+
+# Create a variable to store the current calculation
+calculation = []
+
+def button_click(value):
+    # If the value is "C", clear the display and calculation
+    if value == "C":
+        display.delete(0, "end")
+        calculation.clear()
+    # If the value is "=", evaluate the calculation and display the result
+    elif value == "=":
+        result = eval("".join(calculation))
+        display.delete(0, "end")
+        display.insert(0, result)
+        calculation.clear()
+    # Otherwise, append the value to the calculation
+    else:
+        calculation.append(value)
+        display.insert("end", value)
+
+# Create the buttons and place them in the grid
+for i, row in enumerate(buttons):
+    for j, button in enumerate(row):
+        tk.Button(window, text=button, width=5, command=lambda value=button: button_click(value)).grid(row=i+1, column=j)
+
+# Run the main loop
+window.mainloop()
